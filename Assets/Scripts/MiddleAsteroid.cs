@@ -20,6 +20,5 @@ public class MiddleAsteroid : Asteroid
 	void OnTriggerStay(Collider other)
 	{
 		OnTriggerAsteroid("MiddleAsteroid", other, gameObject);
-		newSpeed = Random.Range(speed - 2f, speed + 2f);
 	}
 }

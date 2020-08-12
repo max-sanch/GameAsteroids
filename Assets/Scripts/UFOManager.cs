@@ -10,7 +10,12 @@ public class UFOManager : MonoBehaviour
     public Transform pointBorder;
     public static float timeLeftMoving;
     float timeLeftShoting;
+    float amplitude = 4;
+    float speed = 10;
+    float positionZ;
+    float maxHeight;
     bool isRight;
+    bool isUp = true;
     ObjectPooler objectPooler;
 
     void Start()
@@ -18,6 +23,7 @@ public class UFOManager : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
         timeLeftMoving = Random.Range(20f, 40f);
         timeLeftShoting = Random.Range(2f, 5f);
+        maxHeight = pointBorder.position.z * 0.3f;
     }
     
     void Update()
@@ -27,6 +33,12 @@ public class UFOManager : MonoBehaviour
             Randomaze();
             ObjUFO.SetActive(true);
         }
+        if ((ObjUFO.transform.position.z >= positionZ + amplitude && !isUp) ||
+            (ObjUFO.transform.position.z <= positionZ - amplitude && isUp))
+        {
+            isUp = !isUp;
+        }
+
     }
 
     void FixedUpdate()
@@ -42,16 +54,19 @@ public class UFOManager : MonoBehaviour
 
     void Moving()
     {
-        if (isRight)
-            ObjUFO.transform.Translate(10 * Time.deltaTime, 0, 0);
-        else
-            ObjUFO.transform.Translate(-10 * Time.deltaTime, 0, 0);
+        float movingX = speed * Time.deltaTime;
+        float movingZ = speed * Time.deltaTime;
+        if (!isRight)
+            movingX = -movingX;
+        if (isUp)
+            movingZ = -movingZ;
+
         if (timeLeftShoting < 0)
         {
             timeLeftShoting = Random.Range(2f, 5f);
             Shot();
         }
-
+        ObjUFO.transform.Translate(movingX, 0, movingZ);
     }
 
     void Shot()
@@ -63,8 +78,8 @@ public class UFOManager : MonoBehaviour
 
     void Randomaze()
     {
-        float maxHeight = pointBorder.position.z * 0.3f;
-        ObjUFO.transform.position = new Vector3(-49.5f, 1, Random.Range(-maxHeight, maxHeight));
+        positionZ = Random.Range(-maxHeight, maxHeight);
+        ObjUFO.transform.position = new Vector3(-49.5f, 1, positionZ);
         isRight = Random.Range(0f, 1f) >= 0.5f;
     }
 }

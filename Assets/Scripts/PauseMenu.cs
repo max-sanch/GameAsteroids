@@ -17,6 +17,12 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 0;
+        int MAK = PlayerPrefs.GetInt("MAK", 2);
+        if (MAK == 1)
+        { 
+            controlButton.transform.Find("Text").GetComponent<Text>().text = "Мышь и клав.";
+            isMouseAndKeyboard = true;
+        }
     }
     void Update()
     {
@@ -83,11 +89,13 @@ public class PauseMenu : MonoBehaviour
         {
             controlButton.transform.Find("Text").GetComponent<Text>().text = "Клавиатура";
             isMouseAndKeyboard = false;
+            PlayerPrefs.SetInt("MAK", 0);
         }
         else
         {
             controlButton.transform.Find("Text").GetComponent<Text>().text = "Мышь и клав.";
             isMouseAndKeyboard = true;
+            PlayerPrefs.SetInt("MAK", 1);
         }
     }
 

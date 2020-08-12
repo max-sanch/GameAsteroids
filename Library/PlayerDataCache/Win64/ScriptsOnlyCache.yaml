@@ -633,4 +633,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/maxim/Desktop/Asteroids.exe
+  playerPath: C:/Users/maxim/Desktop/Asteroids2/Asteroids.exe
